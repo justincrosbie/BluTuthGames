@@ -10,15 +10,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.jucrobile.blututhgames.BluTuthApplication;
+import com.jucrobile.blututhgames.BluTuthService;
 
 public class BoardView extends View {
 
-    BluTuthApplication mApplication;
+    private BluTuthService mService;
 
 	  public int[][] positions = new int[][] { 
 		      { 0, 0, 0 },
@@ -27,14 +28,6 @@ public class BoardView extends View {
 		  };
 	
     
-	public BluTuthApplication getApplication() {
-		return mApplication;
-	}
-
-	public void setApplication(BluTuthApplication mApplication) {
-		this.mApplication = mApplication;
-	}
-
 	private int _color = 1;
 	private boolean colorSet = false;
 	private boolean myGo = true;
@@ -43,7 +36,15 @@ public class BoardView extends View {
 	    _color = c;
 	  }
 	  
-	  public BoardView(Context context) {
+	  public BluTuthService getService() {
+		return mService;
+	}
+
+	public void setService(BluTuthService mService) {
+		this.mService = mService;
+	}
+
+	public BoardView(Context context) {
 	      super(context);
 	  }
 	  
@@ -84,7 +85,9 @@ public class BoardView extends View {
 	          invalidate();
 
 	          String str = "XsAndOs:" + x + "," + y;
-		      mApplication.getChatService().write(str.getBytes());
+	          
+	          Log.d("BT", "BT State = " + mService.getState());
+	          mService.write(str.getBytes());
 	
 	          return true;
 	        }
